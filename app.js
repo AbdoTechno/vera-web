@@ -206,15 +206,15 @@ const ragQueries = {
     steps: [
       { num: '01', title: 'Dense Embeddings', desc: 'Query encoded into 768-dim vector space', meta: 'text-embedding-004' },
       { num: '02', title: 'ChromaDB Matching', desc: 'Top-3 nearest chunks (Cos: 0.89)', meta: 'vault/sma_protocol.pdf' },
-      { num: '03', title: 'Grounded Synthesis', desc: 'Zero-hallucination verification active', meta: 'Safety Gate 100%' },
-      { num: '04', title: 'Clinical Recommendation', desc: 'Structured guidance + citations generated', meta: '⚡ Latency: 1.1s' }
+      { num: '03', title: 'Grounded Synthesis', desc: 'Zero-hallucination verification active', meta: 'Safety Gate: 100%' },
+      { num: '04', title: 'Clinical Recommendation', desc: 'Structured guidance + citations generated', meta: 'Latency: 1.1s' }
     ],
-    latency: '⚡ Verified in 1.1s',
+    latency: 'Verified in 1.1s',
     paragraphs: [
       'Retrieving from indexed SMA clinical vault...',
       '<strong>Nusinersen (Spinraza) Pediatric Loading Protocol:</strong>',
       '1. <strong>Loading Regimen:</strong> 4 intrathecal doses of 12 mg / 5 mL each.<br>2. <strong>Schedule:</strong> Days 0, 14, 28, and 63.<br>3. <strong>Maintenance:</strong> 12 mg IT every 4 months after Day 63.',
-      '<div class="chat-citation">📋 [Grounded Source] SMA Clinical Management Guidelines 2024, Page 14 — Cosine Similarity: 0.89</div>'
+      '<div class="chat-citation">[Grounded Source] SMA Clinical Management Guidelines 2024, Page 14 — Cosine Similarity: 0.89</div>'
     ]
   },
   hf: {
@@ -223,15 +223,15 @@ const ragQueries = {
     steps: [
       { num: '01', title: 'Dense Embeddings', desc: 'Query vectorized via clinical tokenizer', meta: 'Dim: 768' },
       { num: '02', title: 'ChromaDB Matching', desc: 'ESC 2024 Consensus section retrieved', meta: 'Sim: 0.92' },
-      { num: '03', title: 'Grounded Synthesis', desc: 'Cross-checked contraindication rules', meta: 'Grounded ✓' },
-      { num: '04', title: 'Clinical Recommendation', desc: '4-week titration roadmap formulated', meta: '⚡ Latency: 0.9s' }
+      { num: '03', title: 'Grounded Synthesis', desc: 'Cross-checked contraindication rules', meta: 'Grounded: Verified' },
+      { num: '04', title: 'Clinical Recommendation', desc: '4-week titration roadmap formulated', meta: 'Latency: 0.9s' }
     ],
-    latency: '⚡ Verified in 0.9s',
+    latency: 'Verified in 0.9s',
     paragraphs: [
       'Querying ESC 2024 Heart Failure Guideline vault...',
       '<strong>ESC 2024 GDMT 4-Pillars for HFrEF:</strong>',
       '1. <strong>ARNi / ACEi:</strong> Sacubitril/Valsartan 97/103 mg BID.<br>2. <strong>Beta-Blocker:</strong> Bisoprolol target 10 mg QD.<br>3. <strong>MRA:</strong> Spironolactone 50 mg QD — monitor eGFR/K⁺.<br>4. <strong>SGLT2i:</strong> Dapagliflozin 10 mg or Empagliflozin 10 mg QD.',
-      '<div class="chat-citation">📋 [Grounded Source] ESC Heart Failure Guidelines 2024 Update — Cosine Similarity: 0.92</div>'
+      '<div class="chat-citation">[Grounded Source] ESC Heart Failure Guidelines 2024 Update — Cosine Similarity: 0.92</div>'
     ]
   },
   sepsis: {
@@ -240,15 +240,15 @@ const ragQueries = {
     steps: [
       { num: '01', title: 'Dense Embeddings', desc: 'Emergency protocol query indexed', meta: 'Urgent Priority' },
       { num: '02', title: 'ChromaDB Matching', desc: 'SCCM 2024 Sepsis guidelines matched', meta: 'Cos: 0.94' },
-      { num: '03', title: 'Grounded Synthesis', desc: 'Fluid vs vasopressor timing verified', meta: 'Grounded ✓' },
-      { num: '04', title: 'Clinical Recommendation', desc: '1-Hour bundle steps validated', meta: '⚡ Latency: 1.0s' }
+      { num: '03', title: 'Grounded Synthesis', desc: 'Fluid vs vasopressor timing verified', meta: 'Grounded: Verified' },
+      { num: '04', title: 'Clinical Recommendation', desc: '1-Hour bundle steps validated', meta: 'Latency: 1.0s' }
     ],
-    latency: '⚡ Verified in 1.0s',
+    latency: 'Verified in 1.0s',
     paragraphs: [
       'Activating emergency sepsis protocol lookup...',
       '<strong>Surviving Sepsis Campaign — 1-Hour Bundle:</strong>',
       '1. <strong>Lactate:</strong> Re-measure if initial &gt; 2 mmol/L.<br>2. <strong>Blood Cultures:</strong> Obtain before antibiotic administration.<br>3. <strong>Antibiotics:</strong> Broad-spectrum within 1 hour of recognition.<br>4. <strong>Fluids:</strong> 30 mL/kg balanced crystalloids for hypotension.<br>5. <strong>Vasopressors:</strong> Norepinephrine early if MAP &lt; 65 mmHg.',
-      '<div class="chat-citation">📋 [Grounded Source] SCCM Surviving Sepsis Guidelines 2024 — Cosine Similarity: 0.94</div>'
+      '<div class="chat-citation">[Grounded Source] SCCM Surviving Sepsis Guidelines 2024 — Cosine Similarity: 0.94</div>'
     ]
   }
 };
