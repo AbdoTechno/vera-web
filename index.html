@@ -9,23 +9,19 @@
   <!-- Official Favicon -->
   <link rel="icon" type="image/png" href="images/logo.png">
 
-  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <!-- Google Fonts: Readex Pro, Plus Jakarta Sans, Inter, Fira Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300..800&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Inter:wght@400..700&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
   
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="style.css">
+  <!-- Stylesheet (Clean Light Medical Theme - Cache-busted) -->
+  <link rel="stylesheet" href="style.css?v=6.2">
 </head>
 <body>
 
   <!-- Particle Canvas -->
-  <canvas id="particles-canvas"></canvas>
 
   <!-- Ambient Glowing Halos -->
-  <div class="ambient-glow ambient-top-left"></div>
-  <div class="ambient-glow ambient-mid-right"></div>
-  <div class="ambient-glow ambient-bottom"></div>
 
   <!-- Navigation Bar -->
   <header>
@@ -59,19 +55,20 @@
   <main>
     <!-- Hero Section -->
     <section class="hero-section">
+      <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
       <div class="hero-grid">
         <div class="hero-content">
           <div class="hero-badge">
-            <span class="pulse-dot"></span>
-            <span>VERA 2.0 &bull; Zero-Hallucination Clinical RAG</span>
+            <span class="hero-badge-dot" aria-hidden="true"></span>
+            <span>VERA 2.0 &bull; Evidence-Based Clinical Assistant</span>
           </div>
           
           <h1 class="hero-title">
-            Evidence-Grounded AI for <span class="text-gradient">High-Stakes Medicine</span>
+            Evidence-Grounded AI for <span class="text-teal">High-Stakes Medicine</span>
           </h1>
 
           <p class="hero-desc">
-            Empowering physicians with instant peer-reviewed clinical guidelines, verified pediatric &amp; adult drug dosing, and real-time medical news intelligence powered by ChromaDB and BYOK Gemini.
+            Empowering physicians with instant peer-reviewed clinical guidelines, verified pediatric &amp; adult drug dosing, and real-time medical news intelligence powered by ChromaDB vector search and verified clinical guidelines.
           </p>
 
           <div class="hero-actions">
@@ -84,7 +81,7 @@
               <span>Download Android APK (19.3 MB)</span>
             </a>
             <a href="#gallery" class="btn-secondary">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-play">
                 <polygon points="5 3 19 12 5 21 5 3"/>
               </svg>
               <span>View App Screens</span>
@@ -93,15 +90,15 @@
 
           <div class="hero-trust">
             <div class="trust-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
               <span>ChromaDB Vector Store</span>
             </div>
             <div class="trust-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
               <span>GNews 80k+ Sources</span>
             </div>
             <div class="trust-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
               <span>100% BYOK Privacy</span>
             </div>
           </div>
@@ -109,7 +106,6 @@
 
         <!-- Phone Mockup -->
         <div class="mockup-container">
-          <div class="mockup-glow"></div>
           <div class="phone-frame">
             <div class="phone-screen">
               <img src="images/photo_4_2026-08-18_23-56-49.jpg" alt="VERA Clinical Assistant Screen" class="phone-screen-img">
@@ -152,33 +148,33 @@
       <div class="gallery-grid">
         <div class="gallery-card reveal">
           <div class="gallery-img-wrapper">
-            <img src="images/photo_4_2026-08-18_23-56-49.jpg" alt="Home Dashboard & Headlines" class="gallery-img">
+            <img src="images/photo_4_2026-08-18_23-56-49.jpg" alt="Home Dashboard & Headlines" class="gallery-img" loading="lazy">
           </div>
-          <h4 class="gallery-caption-title">Clinical Dashboard</h4>
+          <h3 class="gallery-caption-title">Clinical Dashboard</h3>
           <p class="gallery-caption-desc">GNews live headlines carousel &amp; specialty benchmarks</p>
         </div>
 
         <div class="gallery-card reveal reveal-delay-1">
           <div class="gallery-img-wrapper">
-            <img src="images/photo_3_2026-08-18_23-56-49.jpg" alt="Clinical Inquiries & Suggestions" class="gallery-img">
+            <img src="images/photo_3_2026-08-18_23-56-49.jpg" alt="Clinical Inquiries & Suggestions" class="gallery-img" loading="lazy">
           </div>
-          <h4 class="gallery-caption-title">Clinical Consultation</h4>
+          <h3 class="gallery-caption-title">Clinical Consultation</h3>
           <p class="gallery-caption-desc">Contextual query prompts &amp; multi-turn memory</p>
         </div>
 
         <div class="gallery-card reveal reveal-delay-2">
           <div class="gallery-img-wrapper">
-            <img src="images/photo_1_2026-08-18_23-56-49.jpg" alt="Grounded RAG Pipeline Stepper" class="gallery-img">
+            <img src="images/photo_1_2026-08-18_23-56-49.jpg" alt="Grounded RAG Pipeline Stepper" class="gallery-img" loading="lazy">
           </div>
-          <h4 class="gallery-caption-title">Grounded RAG Stepper</h4>
+          <h3 class="gallery-caption-title">Grounded RAG Stepper</h3>
           <p class="gallery-caption-desc">Real-time 4-step evidence verification pipeline</p>
         </div>
 
         <div class="gallery-card reveal reveal-delay-3">
           <div class="gallery-img-wrapper">
-            <img src="images/photo_2_2026-08-18_23-56-49.jpg" alt="Synthesized Output Card" class="gallery-img">
+            <img src="images/photo_2_2026-08-18_23-56-49.jpg" alt="Synthesized Output Card" class="gallery-img" loading="lazy">
           </div>
-          <h4 class="gallery-caption-title">Synthesized Evidence</h4>
+          <h3 class="gallery-caption-title">Synthesized Evidence</h3>
           <p class="gallery-caption-desc">Zero-hallucination guidance with verbatim citations</p>
         </div>
       </div>
@@ -187,15 +183,15 @@
     <!-- Core Features Grid -->
     <section class="section" id="features">
       <div class="section-header">
-        <div class="section-subtitle">Clinical Grade Capabilities</div>
+        <div class="section-subtitle">Clinical Capabilities</div>
         <h2 class="section-title">Engineered Specifically for High-Stakes Medicine</h2>
-        <p class="section-desc">Every layer in VERA is strictly designed to eliminate hallucinations, enforce privacy compliance, and accelerate decision-making at the point of care.</p>
+        <p class="section-desc">Every layer in VERA is designed to ensure accuracy, enforce privacy compliance, and accelerate decision-making at the point of care.</p>
       </div>
 
       <div class="features-grid">
         <div class="feature-card reveal">
           <div class="feature-icon-box">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
           </div>
           <h3 class="feature-title">Zero-Hallucination Grounding</h3>
           <p class="feature-desc">Every response is strictly matched against indexed clinical guidelines via ChromaDB dense vector embeddings, with verbatim page citations.</p>
@@ -203,7 +199,7 @@
 
         <div class="feature-card reveal reveal-delay-1">
           <div class="feature-icon-box">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
           </div>
           <h3 class="feature-title">GNews Real-Time Intelligence</h3>
           <p class="feature-desc">Integrated carousel and search over 80,000 global medical journals and health discovery feeds with instant in-reader AI summarization.</p>
@@ -211,31 +207,31 @@
 
         <div class="feature-card reveal reveal-delay-2">
           <div class="feature-icon-box">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           </div>
           <h3 class="feature-title">BYOK Enterprise Privacy</h3>
           <p class="feature-desc">Bring Your Own Key architecture for Google Gemini and OpenAI. Keys are stored inside encrypted hardware secure storage with zero server telemetry.</p>
         </div>
 
-        <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card reveal reveal-delay-3">
           <div class="feature-icon-box">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
           <h3 class="feature-title">Multi-Turn Clinical Memory</h3>
           <p class="feature-desc">Stateful persistent chat stream keeps entire case discussions active, allowing sequential diagnostic drill-downs and dosage verifications.</p>
         </div>
 
-        <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card reveal reveal-delay-4">
           <div class="feature-icon-box">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
           </div>
           <h3 class="feature-title">Multi-Specialty Vault</h3>
           <p class="feature-desc">Pre-indexed clinical guidelines covering Pediatric Neurology, Cardiology, Critical Care, Clinical Genomics, and Oncology.</p>
         </div>
 
-        <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-card reveal reveal-delay-5">
           <div class="feature-icon-box">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/><path d="M2 12h20"/><path d="m5 7-3 5 3 5"/><path d="m19 7 3 5-3 5"/></svg>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/><path d="M2 12h20"/><path d="m5 7-3 5 3 5"/><path d="m19 7 3 5-3 5"/></svg>
           </div>
           <h3 class="feature-title">Serene Medical UX</h3>
           <p class="feature-desc">Calibrated medical teal palette and high-contrast typography crafted specifically to reduce cognitive fatigue in acute clinical environments.</p>
@@ -246,9 +242,9 @@
     <!-- Interactive Live RAG Simulator + VERA AI Character -->
     <section class="section" id="demo">
       <div class="section-header">
-        <div class="section-subtitle">Interactive Proof of Concept</div>
-        <h2 class="section-title">Test the VERA RAG Execution Pipeline</h2>
-        <p class="section-desc">Select a clinical inquiry below. Watch VERA process the request in real-time through the 4-stage verification pipeline and deliver a grounded clinical response.</p>
+        <div class="section-subtitle">How VERA Works</div>
+        <h2 class="section-title">The Evidence Retrieval Process</h2>
+        <p class="section-desc">Select a clinical inquiry below. Select a clinical inquiry below to see how VERA retrieves and synthesizes evidence from peer-reviewed sources.</p>
       </div>
 
       <div class="demo-container reveal">
@@ -271,13 +267,12 @@
           <div class="vera-chat-header">
             <div class="vera-avatar" id="vera-avatar">
               <span>V</span>
-              <div class="vera-avatar-ring"></div>
             </div>
             <div class="vera-chat-info">
-              <div class="vera-name">VERA Clinical Intelligence</div>
+              <div class="vera-name">VERA Clinical Assistant</div>
               <div class="vera-status">
                 <div class="vera-status-dot"></div>
-                <span id="vera-status-text">Online &bull; Evidence Verification Active</span>
+                <span id="vera-status-text">Searching verified guidelines</span>
               </div>
             </div>
             <div class="vera-badge" id="vera-latency-badge">⚡ Verified in 1.1s</div>
@@ -295,9 +290,9 @@
         <div class="download-content">
           <h2 class="download-title">Equip Your Clinical Practice with VERA Today</h2>
           <p class="download-desc">
-            Download the standalone Android APK release (19.3 MB). Install directly on Android 8.0+ tablets and smartphones with offline-first indexing and hardware-encrypted BYOK storage.
+            Download the standalone Android APK release (19.3 MB). Install directly on Android 8.0+ tablets and smartphones with offline indexing and secure BYOK storage.
           </p>
-          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <div class="download-btns">
             <a href="./apk/app-release.apk" download="VERA_Clinical_Assistant.apk" class="download-btn download-trigger">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -343,12 +338,12 @@
   <footer class="footer">
     <div class="footer-grid">
       <div>
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <img src="images/logo.png" alt="VERA Logo" style="width: 34px; height: 34px; object-fit: contain; border-radius: 10px; box-shadow: 0 0 14px rgba(0,212,200,0.4);">
-          <strong style="font-family: var(--font-heading); background: linear-gradient(90deg,#fff,#00FFE5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.2rem; letter-spacing: 2px;">VERA</strong>
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="VERA Logo" class="footer-logo">
+          <strong class="footer-brand-name">VERA</strong>
         </div>
         <p class="footer-brand-desc">
-          Verified Evidence &amp; Research Assistant: Grounded AI for clinical decisions, guideline verification, and medical intelligence.
+          Verified Evidence &amp; Research Assistant for clinical decisions, guideline verification, and medical intelligence.
         </p>
       </div>
 
@@ -374,11 +369,13 @@
     </div>
 
     <div class="footer-bottom">
-      &copy; 2026 VERA Clinical Intelligence &bull; AI Hackathon Project &bull; Built for Healthcare Excellence.
+      &copy; 2026 VERA Clinical Assistant &bull; AI Hackathon Project &bull; Built for Healthcare Excellence.
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="app.js"></script>
+  <!-- Scripts (Cache-busted) -->
+  <script src="app.js?v=5.0"></script>
 </body>
 </html>
+
+

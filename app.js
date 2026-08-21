@@ -4,79 +4,116 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initParticles();
+  // particles removed
   initNavbarScroll();
   initScrollReveal();
   initCounterAnimations();
   initRagDemoSimulator();
   initDownloadButton();
+  initHeroBackground();
 });
 
 /* ═══════════════════════════════════════════
-   1. CANVAS PARTICLE SYSTEM
+   1. CANVAS PARTICLE SYSTEM — removed
 ═══════════════════════════════════════════ */
-function initParticles() {
-  const canvas = document.getElementById('particles-canvas');
+
+/* ═══════════════════════════════════════════
+   1b. HERO VECTOR NETWORK BACKGROUND
+═══════════════════════════════════════════ */
+function initHeroBackground() {
+  // Respect reduced-motion preference
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const canvas = document.getElementById('hero-canvas');
   if (!canvas) return;
+  const hero = canvas.parentElement;
   const ctx = canvas.getContext('2d');
 
-  let W = canvas.width = window.innerWidth;
-  let H = canvas.height = window.innerHeight;
-
-  window.addEventListener('resize', () => {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  });
-
-  const PARTICLE_COUNT = 60;
-  const particles = [];
-
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.5 + 0.4,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      alpha: Math.random() * 0.5 + 0.1
-    });
+  function resize() {
+    canvas.width  = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
   }
+  resize();
+  const ro = new ResizeObserver(resize);
+  ro.observe(hero);
 
-  function drawParticles() {
+  // Nodes represent vector embeddings in ChromaDB space
+  const NODE_COUNT = 22;
+  const CONNECT_DIST = 200;
+  const nodes = Array.from({ length: NODE_COUNT }, () => ({
+    x:      Math.random(),
+    y:      Math.random(),
+    vx:     (Math.random() - 0.5) * 0.00018,
+    vy:     (Math.random() - 0.5) * 0.00018,
+    r:      Math.random() * 2 + 1.2,
+    phase:  Math.random() * Math.PI * 2,
+    active: Math.random() < 0.22
+  }));
+
+  let rafId;
+  let visible = true;
+
+  // Pause when hero is off-screen
+  const io = new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting;
+    if (visible && !rafId) rafId = requestAnimationFrame(draw);
+  });
+  io.observe(hero);
+
+  function draw(ts) {
+    rafId = null;
+    if (!visible) return;
+
+    const W = canvas.width;
+    const H = canvas.height;
     ctx.clearRect(0, 0, W, H);
-    particles.forEach((p, i) => {
-      // Move
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0) p.x = W;
-      if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H;
-      if (p.y > H) p.y = 0;
 
-      // Draw dot
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0, 212, 200, ${p.alpha})`;
-      ctx.fill();
+    const t = ts / 1000;
 
-      // Draw connecting lines to nearby particles
-      for (let j = i + 1; j < particles.length; j++) {
-        const q = particles[j];
-        const dist = Math.hypot(p.x - q.x, p.y - q.y);
-        if (dist < 130) {
+    // Update & wrap positions
+    nodes.forEach(n => {
+      n.x += n.vx;
+      n.y += n.vy;
+      if (n.x < 0) n.x = 1;
+      if (n.x > 1) n.x = 0;
+      if (n.y < 0) n.y = 1;
+      if (n.y > 1) n.y = 0;
+    });
+
+    // Draw connections first (under nodes)
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i], b = nodes[j];
+        const dx = (a.x - b.x) * W;
+        const dy = (a.y - b.y) * H;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECT_DIST) {
+          const alpha = (1 - dist / CONNECT_DIST) * 0.055;
           ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(q.x, q.y);
-          ctx.strokeStyle = `rgba(0, 212, 200, ${0.07 * (1 - dist / 130)})`;
-          ctx.lineWidth = 0.5;
+          ctx.moveTo(a.x * W, a.y * H);
+          ctx.lineTo(b.x * W, b.y * H);
+          ctx.strokeStyle = `rgba(19,154,140,${alpha})`;
+          ctx.lineWidth = 0.8;
           ctx.stroke();
         }
       }
+    }
+
+    // Draw nodes
+    nodes.forEach(n => {
+      const pulse = Math.sin(t * 1.2 + n.phase) * 0.5 + 0.5;
+      const alpha = n.active ? 0.14 + pulse * 0.08 : 0.06 + pulse * 0.03;
+      const r     = n.r + (n.active ? pulse * 1.2 : 0);
+      ctx.beginPath();
+      ctx.arc(n.x * W, n.y * H, r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(19,154,140,${alpha})`;
+      ctx.fill();
     });
-    requestAnimationFrame(drawParticles);
+
+    rafId = requestAnimationFrame(draw);
   }
 
-  drawParticles();
+  rafId = requestAnimationFrame(draw);
 }
 
 /* ═══════════════════════════════════════════
@@ -86,13 +123,13 @@ function initNavbarScroll() {
   const navbar = document.querySelector('.navbar');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 40) {
-      navbar.style.background = 'rgba(5, 13, 26, 0.97)';
-      navbar.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.6)';
-      navbar.style.padding = '14px 5%';
+      navbar.style.background = 'rgba(255, 255, 255, 0.97)';
+      navbar.style.boxShadow = '0 2px 20px rgba(15, 23, 42, 0.08)';
+      navbar.style.padding = '10px 5%';
     } else {
-      navbar.style.background = 'rgba(5, 13, 26, 0.88)';
-      navbar.style.boxShadow = 'none';
-      navbar.style.padding = '18px 5%';
+      navbar.style.background = '';
+      navbar.style.boxShadow = '';
+      navbar.style.padding = '';
     }
   });
 }
@@ -104,13 +141,30 @@ function initScrollReveal() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
+        const el = entry.target;
+        el.style.willChange = 'opacity, transform';
+        el.classList.add('visible');
+        // Remove will-change after transition completes
+        el.addEventListener('transitionend', () => {
+          el.style.willChange = '';
+        }, { once: true });
+        observer.unobserve(el);
       }
     });
   }, { threshold: 0.12 });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Pause float animation on phone frame when off-screen
+  const phoneFrame = document.querySelector('.phone-frame');
+  if (phoneFrame) {
+    const floatObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        phoneFrame.classList.toggle('paused', !entry.isIntersecting);
+      });
+    }, { threshold: 0 });
+    floatObserver.observe(phoneFrame);
+  }
 }
 
 /* ═══════════════════════════════════════════
@@ -263,18 +317,25 @@ function initRagDemoSimulator() {
 
     // Use innerHTML for rich content, then animate in
     bubble.style.opacity = '0';
+    bubble.style.transform = 'translateY(6px)';
     bubble.innerHTML = html;
     setTimeout(() => {
-      bubble.style.transition = 'opacity 0.4s ease';
+      bubble.style.transition = 'opacity 240ms cubic-bezier(0.2, 0, 0, 1), transform 240ms cubic-bezier(0.2, 0, 0, 1)';
       bubble.style.opacity = '1';
-    }, 50);
+      bubble.style.transform = 'translateY(0)';
+    }, 40);
     chatBody.scrollTop = chatBody.scrollHeight;
     if (onDone) onDone();
   }
 
   function activateStep(stepCards, idx) {
-    stepCards.forEach(s => s.classList.remove('active'));
-    if (idx < stepCards.length) stepCards[idx].classList.add('active');
+    stepCards.forEach((s, i) => {
+      s.classList.toggle('active', i <= idx);
+    });
+    // Activate connectors up to previous step
+    stepsContainer.querySelectorAll('.pipeline-connector').forEach((c, i) => {
+      c.classList.toggle('active', i < idx);
+    });
   }
 
   function renderDemo(key) {
@@ -287,14 +348,21 @@ function initRagDemoSimulator() {
     if (veraAvatar) veraAvatar.classList.remove('speaking');
     setStatus('Online • Processing query...');
 
-    // Render pipeline steps
-    stepsContainer.innerHTML = data.steps.map((step, idx) => `
-      <div class="pipeline-step" data-step="${idx}">
+    // Render pipeline steps with connectors between them
+    const connectorSVG = `<svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 8h14M10 3l6 5-6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+    stepsContainer.innerHTML = data.steps.map((step, idx) => {
+      const stepHTML = `<div class="pipeline-step" data-step="${idx}">
         <div class="step-num">${step.num}</div>
         <div class="step-title">${step.title}</div>
         <div class="step-desc">${step.desc}</div>
-        <div style="font-size: 0.63rem; color: #00FFE5; margin-top: 7px; font-family: monospace; font-weight: 600;">${step.meta}</div>
-      </div>`).join('');
+        <div class="step-meta">${step.meta}</div>
+      </div>`;
+      // Add connector after each step except the last
+      return idx < data.steps.length - 1
+        ? stepHTML + `<div class="pipeline-connector" data-connector="${idx}">${connectorSVG}</div>`
+        : stepHTML;
+    }).join('');
 
     const stepCards = stepsContainer.querySelectorAll('.pipeline-step');
 
@@ -382,32 +450,33 @@ function showToast(msg) {
     toast.id = 'vera-toast';
     toast.style.cssText = `
       position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: linear-gradient(135deg, #00D4C8, #0D9488);
+      bottom: 28px;
+      right: 28px;
+      background: #139A8C;
       color: white;
-      padding: 14px 24px;
-      border-radius: 16px;
+      padding: 14px 22px;
+      border-radius: 14px;
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 700;
-      font-size: 0.88rem;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,255,229,0.3);
+      font-size: 13.5px;
+      box-shadow: 0 8px 28px rgba(19, 154, 140, 0.35);
       z-index: 9999;
       display: flex; align-items: center; gap: 10px;
-      transform: translateY(100px);
+      transform: translateY(8px);
       opacity: 0;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      border: 1px solid rgba(0,255,229,0.3);
+      transition: transform 200ms cubic-bezier(0.2, 0, 0, 1), opacity 200ms cubic-bezier(0.2, 0, 0, 1);
     `;
     document.body.appendChild(toast);
   }
 
-  toast.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> ` + msg;
+  toast.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> <span>` + msg + `</span>`;
   toast.style.transform = 'translateY(0)';
   toast.style.opacity = '1';
 
   setTimeout(() => {
-    toast.style.transform = 'translateY(100px)';
+    // Subtle exit animation: small translateY(8px) instead of full height, ease-out
+    toast.style.transform = 'translateY(8px)';
     toast.style.opacity = '0';
   }, 3500);
 }
+
